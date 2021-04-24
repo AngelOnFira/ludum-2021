@@ -104,7 +104,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
                     }
                 )
             )
-            await asyncio.sleep(0.5)
+            await asyncio.sleep(5550.5)
 
 
 class GameConsumer(SyncConsumer):
