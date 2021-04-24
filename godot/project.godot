@@ -14,6 +14,10 @@ config/name="Ludem2021"
 run/main_scene="res://MainGame.tscn"
 config/icon="res://icon.png"
 
+[autoload]
+
+WebsocketClient="*res://WebsocketClient.gd"
+
 [physics]
 
 common/enable_pause_aware_picking=true
