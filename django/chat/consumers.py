@@ -19,6 +19,8 @@ class ChatConsumer(AsyncWebsocketConsumer):
         self.username = None
         log.info("User Connected")
 
+        self.board = {}
+
         self.model = await self.create_player()
 
         # Join room group
@@ -105,6 +107,10 @@ class ChatConsumer(AsyncWebsocketConsumer):
                 )
             )
             await asyncio.sleep(5550.5)
+
+    @database_sync_to_async
+    def create_card(self):
+        return ClickTracker.objects.create(left=0, right=0, up=0, down=0)
 
 
 class GameConsumer(SyncConsumer):
