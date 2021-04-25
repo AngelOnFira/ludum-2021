@@ -1,14 +1,18 @@
 # chat/consumers.py
 import json
 from channels.generic.websocket import AsyncWebsocketConsumer, SyncConsumer
-from chat.models import ClickTracker
+from chat.models import Card, Player
 from django.db.models import F
 from channels.db import database_sync_to_async
 from django.db.models import Sum
 import asyncio
 import logging
+import random
 
 log = logging.getLogger(__name__)
+
+from chat.models import COLORS
+from chat.serizalizers import CardSerializer
 
 
 class ChatConsumer(AsyncWebsocketConsumer):
@@ -19,20 +23,24 @@ class ChatConsumer(AsyncWebsocketConsumer):
         self.username = None
         log.info("User Connected")
 
-        self.board = {}
+        self.player = await self.create_player()
 
-        self.model = await self.create_player()
+        self.hand = {}
+        for i in range(3):
+            new_card = await self.create_card()
+            self.hand[new_card.id] = new_card
+            print(new_card)
+
 
         # Join room group
         await self.channel_layer.group_add(self.group_name, self.channel_name)
 
         await self.accept()
 
-        total = await self.count_total()
+        # await self.send(text_data=json.dumps({"message": total}))
+        await self.send_hand()
 
-        await self.send(text_data=json.dumps({"message": total}))
-
-        self.my_task = await asyncio.ensure_future(self.run_periodic_task())
+        # self.my_task = await asyncio.ensure_future(self.run_periodic_task())
 
     async def disconnect(self, close_code):
         # Leave room group
@@ -40,12 +48,15 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
     async def receive(self, bytes_data):
         # print(text_data)
-        print(json.loads(bytes_data.decode("utf8")))
+        received = json.loads(bytes_data.decode("utf8"))
 
-        await self.add_click()
-        total = await self.count_total()
+        if "card_move" in received:
+            id_num = int(received["card_move"]["id"])
+            slot = (received["card_move"]["slot"])
 
-        await self.send(text_data=json.dumps({"message": total}))
+            Card.objects.get(id = )
+
+        # await self.send(text_data=json.dumps({"message": total}))
 
         # text_data_json = json.loads(text_data)
         # message = text_data_json['message']
@@ -68,7 +79,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
     @database_sync_to_async
     def create_player(self):
-        return ClickTracker.objects.create(click_count=0)
+        return Player.objects.create()
 
     @database_sync_to_async
     def add_click(self):
@@ -76,9 +87,9 @@ class ChatConsumer(AsyncWebsocketConsumer):
         self.model.click_count += 1
         self.model.save()
 
-    @database_sync_to_async
-    def count_total(self):
-        return ClickTracker.objects.aggregate(Sum("click_count"))
+    # @database_sync_to_async
+    # def count_total(self):
+    #     return ClickTracker.objects.aggregate(Sum("click_count"))
 
     async def run_periodic_task(self):
         while True:
@@ -110,7 +121,31 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
     @database_sync_to_async
     def create_card(self):
-        return ClickTracker.objects.create(left=0, right=0, up=0, down=0)
+        return Card.objects.create(
+            left=random.choice(COLORS)[0],
+            right=random.choice(COLORS)[0],
+            up=random.choice(COLORS)[0],
+            down=random.choice(COLORS)[0],
+            main=random.choice(COLORS)[0],
+            player=self.player,
+        )
+
+    async def send_hand(self):
+        serializer = CardSerializer()
+        print(repr(serializer))
+        await self.send(
+            text_data=json.dumps(
+                {
+                    "message": {
+                        "hand": CardSerializer(self.hand.values(), many=True).data
+                    }
+                }
+            )
+        )
+
+    def calculate_score(self):
+        # player = Player.objects.get(id=self.player)
+        self.player.card_set.all()
 
 
 class GameConsumer(SyncConsumer):

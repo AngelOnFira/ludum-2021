@@ -5,6 +5,9 @@ extends Node2D
 # var a = 2
 # var b = "text"
 
+onready var websocket_client = get_node("/root/WebsocketClient")
+
+var database_id = 0
 var selected = false
 var last_mouse = Vector2()
 var new_mouse = Vector2()
@@ -27,12 +30,14 @@ func _ready():
 	})
 
 func prepare_card(input):
+	self.database_id = input["id"]
+	
 	$Panel/Arrows/ArrowLeft.modulate = colors[input["left"]]
 	$Panel/Arrows/ArrowRight.modulate = colors[input["right"]]
 	$Panel/Arrows/ArrowUp.modulate = colors[input["up"]]
 	$Panel/Arrows/ArrowDown.modulate = colors[input["down"]]
 	
-	$Panel/CardColor.color = colors[input["card"]]
+	$Panel/CardColor.color = colors[input["main"]]
 	
 func _process(_delta):
 	if selected:
@@ -70,7 +75,13 @@ func _on_CardArea_input_event(_viewport, event, _shape_idx):
 					new_parent.add_child(self)
 					new_parent.filled = true
 				
-			print(get_parent())
 			set_position(get_parent().get_node("CardPlaceArea").position + Vector2(5, 5))
-			print("real ", get_parent().get_node("CardPlaceArea").position)
+			print("real ", get_parent().name)
+			var name_split = get_parent().name.split("_")
+			
+			if name_split[0] == "Slot":
+				websocket_client._send({"card_move": {
+					"id": self.database_id,
+					"slot": int(name_split[1]) - 1
+				}})
 

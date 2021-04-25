@@ -42,57 +42,57 @@ margin_bottom = 308.0
 mouse_filter = 2
 columns = 3
 
-[node name="Inv1" parent="V/CardGrid/GridContainer" instance=ExtResource( 1 )]
+[node name="Slot_1" parent="V/CardGrid/GridContainer" instance=ExtResource( 1 )]
 margin_right = 100.0
 margin_bottom = 100.0
 mouse_filter = 2
 
-[node name="Inv2" parent="V/CardGrid/GridContainer" instance=ExtResource( 1 )]
+[node name="Slot_2" parent="V/CardGrid/GridContainer" instance=ExtResource( 1 )]
 margin_left = 104.0
 margin_right = 204.0
 margin_bottom = 100.0
 mouse_filter = 2
 
-[node name="Inv3" parent="V/CardGrid/GridContainer" instance=ExtResource( 1 )]
+[node name="Slot_3" parent="V/CardGrid/GridContainer" instance=ExtResource( 1 )]
 margin_left = 208.0
 margin_right = 308.0
 margin_bottom = 100.0
 mouse_filter = 2
 
-[node name="Inv4" parent="V/CardGrid/GridContainer" instance=ExtResource( 1 )]
+[node name="Slot_4" parent="V/CardGrid/GridContainer" instance=ExtResource( 1 )]
 margin_top = 104.0
 margin_right = 100.0
 margin_bottom = 204.0
 mouse_filter = 2
 
-[node name="Inv5" parent="V/CardGrid/GridContainer" instance=ExtResource( 1 )]
+[node name="Slot_5" parent="V/CardGrid/GridContainer" instance=ExtResource( 1 )]
 margin_left = 104.0
 margin_top = 104.0
 margin_right = 204.0
 margin_bottom = 204.0
 mouse_filter = 2
 
-[node name="Inv6" parent="V/CardGrid/GridContainer" instance=ExtResource( 1 )]
+[node name="Slot_6" parent="V/CardGrid/GridContainer" instance=ExtResource( 1 )]
 margin_left = 208.0
 margin_top = 104.0
 margin_right = 308.0
 margin_bottom = 204.0
 mouse_filter = 2
 
-[node name="Inv7" parent="V/CardGrid/GridContainer" instance=ExtResource( 1 )]
+[node name="Slot_7" parent="V/CardGrid/GridContainer" instance=ExtResource( 1 )]
 margin_top = 208.0
 margin_right = 100.0
 margin_bottom = 308.0
 mouse_filter = 2
 
-[node name="Inv8" parent="V/CardGrid/GridContainer" instance=ExtResource( 1 )]
+[node name="Slot_8" parent="V/CardGrid/GridContainer" instance=ExtResource( 1 )]
 margin_left = 104.0
 margin_top = 208.0
 margin_right = 204.0
 margin_bottom = 308.0
 mouse_filter = 2
 
-[node name="Inv9" parent="V/CardGrid/GridContainer" instance=ExtResource( 1 )]
+[node name="Slot_9" parent="V/CardGrid/GridContainer" instance=ExtResource( 1 )]
 margin_left = 208.0
 margin_top = 208.0
 margin_right = 308.0
@@ -116,18 +116,18 @@ margin_bottom = 100.0
 mouse_filter = 2
 columns = 3
 
-[node name="Inv1" parent="V/InventoryGrid/GridContainer" instance=ExtResource( 1 )]
+[node name="Inv_1" parent="V/InventoryGrid/GridContainer" instance=ExtResource( 1 )]
 margin_right = 100.0
 margin_bottom = 100.0
 mouse_filter = 2
 
-[node name="Inv2" parent="V/InventoryGrid/GridContainer" instance=ExtResource( 1 )]
+[node name="Inv_2" parent="V/InventoryGrid/GridContainer" instance=ExtResource( 1 )]
 margin_left = 104.0
 margin_right = 204.0
 margin_bottom = 100.0
 mouse_filter = 2
 
-[node name="Inv3" parent="V/InventoryGrid/GridContainer" instance=ExtResource( 1 )]
+[node name="Inv_3" parent="V/InventoryGrid/GridContainer" instance=ExtResource( 1 )]
 margin_left = 208.0
 margin_right = 308.0
 margin_bottom = 100.0

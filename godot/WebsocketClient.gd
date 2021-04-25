@@ -21,6 +21,8 @@ func _ready():
 	# a full packet is received.
 	# Alternatively, you could check get_peer(1).get_available_packets() in a loop.
 	_client.connect("data_received", self, "_on_data")
+	
+	
 
 	# Initiate connection to the given URL.
 	var err = _client.connect_to_url(websocket_url)
