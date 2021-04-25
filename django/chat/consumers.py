@@ -31,7 +31,6 @@ class ChatConsumer(AsyncWebsocketConsumer):
             self.hand[new_card.id] = new_card
             print(new_card)
 
-
         # Join room group
         await self.channel_layer.group_add(self.group_name, self.channel_name)
 
@@ -52,9 +51,10 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
         if "card_move" in received:
             id_num = int(received["card_move"]["id"])
-            slot = (received["card_move"]["slot"])
+            slot = received["card_move"]["slot"]
 
-            Card.objects.get(id = )
+            if await self.card_move(id_num, slot):
+                await self.update_player_income()
 
         # await self.send(text_data=json.dumps({"message": total}))
 
@@ -76,6 +76,58 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
         # Send message to WebSocket
         await self.send(text_data=json.dumps({"message": message}))
+
+    @database_sync_to_async
+    def card_move(self, card_id, slot):
+        card = Card.objects.get(id=card_id)
+        if card.player == self.player:
+            card.slot = slot
+            card.save()
+            return True
+        return False
+
+    @database_sync_to_async
+    def save_object(self, object):
+        object.save()
+
+    @database_sync_to_async
+    def update_player_income(self):
+        grid = {}
+        income = 0
+
+        for card in self.player.card_set.all():
+            grid[f"{card.slot % 3},{card.slot // 3}"] = card
+
+        for y in range(3):
+            for x in range(3):
+                if f"{x},{y}" not in grid:
+                    continue
+
+                print("doing one")
+
+                tile = grid[f"{x},{y}"]
+                color = tile.main
+
+                left_coor = f"{x-1},{y}"
+                right_coor = f"{x+1},{y}"
+                up_coor = f"{x},{y-1}"
+                down_coor = f"{x},{+1}"
+
+                if x > 0 and left_coor in grid:
+                    if grid[left_coor].right == color:
+                        income += 1
+                if x < 2 and right_coor in grid:
+                    if grid[right_coor].left == color:
+                        income += 1
+                if y > 0 and up_coor in grid:
+                    if grid[up_coor].down == color:
+                        income += 1
+                if y < 2 and down_coor in grid:
+                    if grid[down_coor].up == color:
+                        income += 1
+
+        print(income)
+        print(grid)
 
     @database_sync_to_async
     def create_player(self):

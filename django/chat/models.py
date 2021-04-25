@@ -29,4 +29,4 @@ class Card(models.Model):
     main = models.IntegerField(default=0, choices=COLORS)
 
     player = models.ForeignKey(Player, on_delete=models.CASCADE)
-    slot = models.IntegerField(default=0)
+    slot = models.IntegerField(default=30)
