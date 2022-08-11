@@ -79,9 +79,9 @@ cryptography==3.4.7; python_full_version >= "3.5.4" and python_version >= "3.7" 
 daphne==3.0.2; python_version >= "3.6" \
     --hash=sha256:a9af943c79717bc52fe64a3c236ae5d3adccc8b5be19c881b442d2c3db233393 \
     --hash=sha256:76ffae916ba3aa66b46996c14fa713e46004788167a4873d647544e750e0e99f
-django==3.2; python_version >= "3.6" \
-    --hash=sha256:0604e84c4fb698a5e53e5857b5aea945b2f19a18f25f10b8748dbdf935788927 \
-    --hash=sha256:21f0f9643722675976004eb683c55d33c05486f94506672df3d6a141546f389d
+django==3.2.15; python_version >= "3.6" \
+    --hash=sha256:115baf5049d5cf4163e43492cdc7139c306ed6d451e7d3571fe9612903903713 \
+    --hash=sha256:f71934b1a822f14a86c9ac9634053689279cd04ae69cb6ade4a59471b886582b
 hiredis==2.0.0; python_version >= "3.6" \
     --hash=sha256:b4c8b0bc5841e578d5fb32a16e0c305359b987b850a06964bd5a62739d688048 \
     --hash=sha256:0adea425b764a08270820531ec2218d0508f8ae15a448568109ffcae050fee26 \
